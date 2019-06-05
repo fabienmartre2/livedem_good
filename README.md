@@ -47,3 +47,10 @@ Une fois reformulée (ou non), la proposition sera soumise au vote citoyen afin 
 Nous croyons fondamentalement en l'intelligence collective. Ensemble, nous pouvons réformer le système politique actuel et nous réapproprier un système qui a perdu de vue la représentation du peuple. Les hommes politiques sont désormais des communiquants carriéristes, avec un pouvoir impactant chacun de nos environnements de vie et travail. Il faut les rappeler à leurs obligations et peut-être étendre ce modéle de démocratie participative autour du globe, comme le montrent les tendances de par le monde.
 
 Nous comptons sur vous.
+
+
+
+
+
+Livedem.org : Inventons ensemble la démocratie 2.0 !
+Livedem.org est un outil collaboratif permettant l'expression populaire, le débat public non partisan et le relais auprès des élus.
