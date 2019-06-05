@@ -6,6 +6,6 @@ il permet de recueillir des propositions de citoyens
 de débattre
 de voter
 les votes sont sécurisé
-il y a aussi un susteme de petition
+il y a aussi un systeme de petition
 
 Vous pouvez l'utiliser librement, ce site est a vous
