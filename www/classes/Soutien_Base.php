@@ -1,0 +1,240 @@
+<?php
+Class Soutien_Base { 
+
+	private $_id;
+	private $_propositionId;
+	private $_utilisateurId;
+	private $_date;
+	private $_ip;
+
+	public function __construct($id, $propositionId, $utilisateurId, $date, $ip) {
+		$this->_id = $id;
+		$this->_propositionId = $propositionId;
+		$this->_utilisateurId = $utilisateurId;
+		$this->_date = $date;
+		$this->_ip = $ip;
+	}
+
+	public function getId(){
+		return stripslashes($this->_id);
+	}
+	public function getPropositionId(){
+		return stripslashes($this->_propositionId);
+	}
+	public function getUtilisateurId(){
+		return stripslashes($this->_utilisateurId);
+	}
+	public function getDate(){
+		return stripslashes($this->_date);
+	}
+	public function getIp(){
+		return stripslashes($this->_ip);
+	}
+	public function setId($id){
+		$this->_id = $id;
+		$db = Db::getInstance();
+		$connexion = $db->getConnexion();
+		$reqSelect =  "UPDATE soutien SET `soutien_id` = :soutien_id WHERE soutien_id = :soutien_id";
+		$resSelect =  $connexion->prepare($reqSelect);
+		$data = array(':soutien_id' => $this->getId(), ':soutien_id' => $this->getId());
+		return $resSelect->execute($data);
+	}
+	public function setPropositionId($propositionId){
+		$this->_propositionId = $propositionId;
+		$db = Db::getInstance();
+		$connexion = $db->getConnexion();
+		$reqSelect =  "UPDATE soutien SET `proposition_id` = :proposition_id WHERE soutien_id = :soutien_id";
+		$resSelect =  $connexion->prepare($reqSelect);
+		$data = array(':soutien_id' => $this->getId(), ':proposition_id' => $this->getPropositionId());
+		return $resSelect->execute($data);
+	}
+	public function setUtilisateurId($utilisateurId){
+		$this->_utilisateurId = $utilisateurId;
+		$db = Db::getInstance();
+		$connexion = $db->getConnexion();
+		$reqSelect =  "UPDATE soutien SET `utilisateur_id` = :utilisateur_id WHERE soutien_id = :soutien_id";
+		$resSelect =  $connexion->prepare($reqSelect);
+		$data = array(':soutien_id' => $this->getId(), ':utilisateur_id' => $this->getUtilisateurId());
+		return $resSelect->execute($data);
+	}
+	public function setDate($date){
+		$this->_date = $date;
+		$db = Db::getInstance();
+		$connexion = $db->getConnexion();
+		$reqSelect =  "UPDATE soutien SET `soutient_date` = :soutient_date WHERE soutien_id = :soutien_id";
+		$resSelect =  $connexion->prepare($reqSelect);
+		$data = array(':soutien_id' => $this->getId(), ':soutient_date' => $this->getDate());
+		return $resSelect->execute($data);
+	}
+	public function setIp($ip){
+		$this->_ip = $ip;
+		$db = Db::getInstance();
+		$connexion = $db->getConnexion();
+		$reqSelect =  "UPDATE soutien SET `soutient_ip` = :soutient_ip WHERE soutien_id = :soutien_id";
+		$resSelect =  $connexion->prepare($reqSelect);
+		$data = array(':soutien_id' => $this->getId(), ':soutient_ip' => $this->getIp());
+		return $resSelect->execute($data);
+	}
+
+	public static function selectSoutien($id){
+		$db = Db::getInstance();
+		$connexion = $db->getConnexion();
+		$reqSelect =  "SELECT * FROM soutien WHERE soutien_id = :id";
+		$resSelect =  $connexion->prepare($reqSelect);
+		$resSelect->execute(array(':id' => $id));
+		$data = $resSelect->fetch(PDO::FETCH_ASSOC);
+		// On vérifie la bonne récuparation
+		if(empty($data))
+			return false;
+		// On retourne un membre
+		return new Soutien(
+			$data['soutien_id'], 
+			$data['proposition_id'], 
+			$data['utilisateur_id'], 
+			$data['soutient_date'], 
+			$data['soutient_ip']
+		);
+	}
+
+
+	public static function insertSoutien($post = array(), $files = array()){
+		$db = Db::getInstance();
+		$connexion = $db->getConnexion();
+		$reqSelect =  "INSERT INTO soutien SET ";
+		$data = array();
+		if(isset($post['id'])){
+			$reqSelect .=	'`soutien_id` = :soutien_id, ';
+			$data['soutien_id'] = $post['id'];
+		}
+		if(isset($post['propositionId'])){
+			$reqSelect .=	'`proposition_id` = :proposition_id, ';
+			$data['proposition_id'] = $post['propositionId'];
+		}
+		if(isset($post['utilisateurId'])){
+			$reqSelect .=	'`utilisateur_id` = :utilisateur_id, ';
+			$data['utilisateur_id'] = $post['utilisateurId'];
+		}
+		if(isset($post['date'])){
+			$reqSelect .=	'`soutient_date` = :soutient_date, ';
+			$data['soutient_date'] = $post['date'];
+		}
+		if(isset($post['ip'])){
+			$reqSelect .=	'`soutient_ip` = :soutient_ip, ';
+			$data['soutient_ip'] = $post['ip'];
+		}
+		$reqSelect = substr($reqSelect,0,strlen($reqSelect)-2);
+		$resSelect =  $connexion->prepare($reqSelect);
+		$resSelect->execute($data);
+		return $connexion->lastInsertId();
+	}
+
+	public function updateSoutien($post, $files = array()){
+		if(isset($post['id']))
+			$this->setId($post['id']);
+		if(isset($post['propositionId']))
+			$this->setPropositionId($post['propositionId']);
+		if(isset($post['utilisateurId']))
+			$this->setUtilisateurId($post['utilisateurId']);
+		if(isset($post['date']))
+			$this->setDate($post['date']);
+		if(isset($post['ip']))
+			$this->setIp($post['ip']);
+		return true;
+	}
+
+	public static function deleteSoutien($id){
+		$db = Db::getInstance();
+		$connexion = $db->getConnexion();
+		$reqSelect =  "DELETE FROM soutien WHERE soutien_id = :id";
+		$resSelect =  $connexion->prepare($reqSelect);
+		$data = array(':id' => $id);
+		return $resSelect->execute($data);
+	}
+
+	public static function selectSoutiens($page = 1, $max = 20, $where = null, $order = null, $join = null, $groupby = null){
+		$page = intval($page);
+		$max = intval($max);
+		$db = Db::getInstance();
+		$connexion = $db->getConnexion();
+		$reqSelect =  "SELECT soutien.* FROM soutien";
+		if(!empty($join)){
+			foreach($join as $cle => $valeur){
+				$reqSelect .= " ".$cle." ON ".$valeur." ";
+			}
+		}
+		$reqSelect .= " WHERE 1 = 1 ";
+		if(!empty($where)){
+			if(!is_array($where[0])){
+				foreach($where as $cle => $valeur){
+					$reqSelect .= " AND ".$valeur."";
+				}
+			}
+			else{
+				foreach($where[0] as $cle => $valeur){
+					$reqSelect .= " AND ".$valeur."";
+				}
+			}
+		}
+		if(!empty($groupby)){
+			$reqSelect .= " GROUP BY ".$groupby."";
+		}
+		if(!empty($order)){
+			$reqSelect .= " ORDER BY ".$order."";
+		}
+		if($max != 0)
+			$reqSelect .= " LIMIT ".(($page-1)*$max).",".$max."";
+		$resSelect =  $connexion->prepare($reqSelect, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+		if(!empty($where) && isset($where[1]) && is_array($where[1])){
+				$resSelect->execute($where[1]);
+		}
+		else{
+				$resSelect->execute();
+		}
+		$datas = $resSelect->fetchall(PDO::FETCH_ASSOC);
+		$result = array();
+		foreach($datas as $data){
+			$result[] = new Soutien(
+				$data['soutien_id'], 
+				$data['proposition_id'], 
+				$data['utilisateur_id'], 
+				$data['soutient_date'], 
+				$data['soutient_ip']
+			);
+		}
+		return $result;
+	}
+
+	public static function getNbSoutiens($where = null, $join = null){
+		$db = Db::getInstance();
+		$connexion = $db->getConnexion();
+		$reqSelect =  "SELECT COUNT(soutien.soutien_id) as nombre FROM soutien";
+		if(!empty($join)){
+			foreach($join as $cle => $valeur){
+				$reqSelect .= " ".$cle." ON ".$valeur." ";
+			}
+		}
+		$reqSelect .= " WHERE 1 = 1 ";
+		if(!empty($where)){
+			if(!is_array($where[0])){
+				foreach($where as $cle => $valeur){
+					$reqSelect .= " AND ".$valeur."";
+				}
+			}
+			else{
+				foreach($where[0] as $cle => $valeur){
+					$reqSelect .= " AND ".$valeur."";
+				}
+			}
+		}
+		$resSelect =  $connexion->prepare($reqSelect, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+		if(!empty($where) && isset($where[1]) && is_array($where[1])){
+				$resSelect->execute($where[1]);
+		}
+		else{
+				$resSelect->execute();
+		}
+		$data = $resSelect->fetch(PDO::FETCH_ASSOC);
+		return $data['nombre'];
+	}
+}
+?>

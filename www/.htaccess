@@ -1,0 +1,21 @@
+RewriteEngine on
+
+RewriteCond %{HTTP_HOST} ^livedem\.org$ [NC]
+RewriteRule ^(.*)$ http://www.livedem.org/$1 [R=301,L]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^get_square/([0-9]+)/(.+)   modules/get_square.php?width=$1&image=$2 [L]
+RewriteRule ^get_image/([0-9]+)-([0-9]+)/(.+)  modules/get_image.php?width=$1&height=$2&image=$3 [L]
+RewriteRule ^get_fixed/([0-9]+)-([0-9]+)/(.+)  modules/get_fixed.php?width=$1&height=$2&image=$3 [L]
+
+
+RewriteRule ^profil/(.*)-(.*)   site.php?page=profil&pseudo=$1&id=$2 [L]
+RewriteRule ^(.*)/(.*)/(.*).html    site.php?page=$1&id=$2&id1=$3&%{QUERY_STRING} [L]
+RewriteRule ^(.*)/page-(0-9)+   site.php?page=$1&limit=2&%{QUERY_STRING} [L]
+RewriteRule ^(.*)/(.*).html    site.php?page=$1&id=$2&%{QUERY_STRING} [L]
+RewriteRule ^(.*).html   site.php?page=$1&%{QUERY_STRING} [L]
+
+
+
+

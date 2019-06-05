@@ -1,0 +1,30 @@
+Options -Indexes
+
+#--------------------------------------------------
+# Répertoire : /
+#--------------------------------------------------
+
+# Le serveur doit suivre les liens symboliques :
+Options +FollowSymlinks
+
+# Activation du module de réécriture d'URL :
+RewriteEngine on
+
+#--------------------------------------------------
+# Règles de réécriture d'URL :
+#--------------------------------------------------
+
+RewriteCond %{HTTP_HOST} ^livedem\.org$ [NC]
+RewriteRule ^(.*)$ http://www.livedem.org/$1 [R=301,L]
+
+RewriteCond %{HTTP_HOST} ^www.livedem\.fr$ [NC]
+RewriteRule ^(.*)$ http://www.livedem.org/$1 [R=301,L]
+
+RewriteCond %{HTTP_HOST} ^livedem\.fr$ [NC]
+RewriteRule ^(.*)$ http://www.livedem.org/$1 [R=301,L]
+
+RewriteCond %{HTTP_HOST} ^livedem\.com$ [NC]
+RewriteRule ^(.*)$ http://www.livedem.org/$1 [R=301,L]
+
+RewriteCond %{HTTP_HOST} ^www.livedem\.com$ [NC]
+RewriteRule ^(.*)$ http://www.livedem.org/$1 [R=301,L]
